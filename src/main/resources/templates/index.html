@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/api" method="post">
+        <label>
+            Число:
+            <input type="text" name="number" required>
+        </label><br>
+
+        <label>
+            <input type="radio" name="option" value="1" checked>
+            Из десятичной в шестнадцатеричную систему
+        </label><br>
+
+        <label>
+            <input type="radio" name="option" value="2">
+            Из десятичной в двоичную систему
+        </label><br>
+
+        <label>
+            <input type="radio" name="option" value="3">
+            Из двоичной в десятичную систему
+        </label><br>
+
+        <button type="submit">Перевести</button>
+    </form>
+</body>
+</html>
