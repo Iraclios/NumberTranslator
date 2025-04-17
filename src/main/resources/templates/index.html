@@ -7,22 +7,27 @@
 <body>
     <form action="/api" method="post">
         <label>
+            ФИО:
+            <input type="text" name="fullname" required>
+        </label><br>
+
+        <label>
             Число:
             <input type="text" name="number" required>
         </label><br>
 
         <label>
-            <input type="radio" name="option" value="1" checked>
+            <input type="radio" name="chosenOperation" value="DecimalToHex" checked>
             Из десятичной в шестнадцатеричную систему
         </label><br>
 
         <label>
-            <input type="radio" name="option" value="2">
+            <input type="radio" name="chosenOperation" value="DecimalToBinary">
             Из десятичной в двоичную систему
         </label><br>
 
         <label>
-            <input type="radio" name="option" value="3">
+            <input type="radio" name="chosenOperation" value="BinaryToDecimal">
             Из двоичной в десятичную систему
         </label><br>
 

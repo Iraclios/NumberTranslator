@@ -6,13 +6,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.util.List;
 
 public class PdfConverter extends AbstractPdfConverter {
-    public byte[] CreatePdf(List<String> list) throws IOException {
+    public byte[] createPdf(List<String> list) throws IOException {
         PDDocument pdfDocument = new PDDocument();
         PDPage pdfPage = new PDPage();
         pdfDocument.addPage(pdfPage);

@@ -1,40 +1,26 @@
 package com.example.demo.minio;
 
 import io.minio.MinioClient;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 
-/** * @Author: heyuhua * @Date: 2021/1/12 10:42 */
 @Configuration
-@ConfigurationProperties(prefix = "minio")
 public class MinioConfig {
+    @Value("${minio.endpoint}")
+    private String endpoint;
 
-    /** * endPoint is a URL, domain name, IPv4 or IPv6 address */
-    private String endpoint = "localhost";
+    @Value("${minio.port}")
+    private int port;
 
-    /** * Port */
-    private int port = 9000;
+    @Value("${minio.accessKey}")
+    private String accessKey;
 
-    /** * AccessKeys are similar to user ids and are used to uniquely identify your account */
-    private String accessKey = "tryer";
+    @Value("${minio.secretKey}")
+    private String secretKey;
 
-    /**
-     * secretKey是你账户的密码
-     */
-    private String secretKey = "tryadmin";
-
-    /** * If true, HTTPS is used instead of HTTP. The default is true */
-    private Boolean secure = false;
-
-    /** * Default bucket */
-    private String bucketName = "mybucket";
-
-    /** * Configure directory */
-    private String configDir;
+    @Value("${minio.secure}")
+    private Boolean secure;
 
     @Bean
     public MinioClient getMinioClient() {

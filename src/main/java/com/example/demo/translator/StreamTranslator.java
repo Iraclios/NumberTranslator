@@ -3,20 +3,20 @@ package com.example.demo.translator;
 import java.util.stream.IntStream;
 
 public class StreamTranslator extends AbstractTranslator {
-    public String TranslateDecimalToHex(String decimal) throws NumberFormatException {
-        int decimalValue = GetDecimalNumber(decimal);
-        return RepresentInBaseSystem(decimalValue,16);
+    public String translateDecimalToHex(String decimal) throws NumberFormatException {
+        int decimalValue = getDecimalNumber(decimal);
+        return representInBaseSystem(decimalValue,16);
     }
-    public String TranslateDecimalToBinary(String decimal) throws NumberFormatException {
-        int decimalValue = GetDecimalNumber(decimal);
-        return RepresentInBaseSystem(decimalValue,2);
+    public String translateDecimalToBinary(String decimal) throws NumberFormatException {
+        int decimalValue = getDecimalNumber(decimal);
+        return representInBaseSystem(decimalValue,2);
     }
-    public String TranslateBinaryToDecimal(String binary) throws NumberFormatException {
-        int binaryValue = GetBinaryNumber(binary);
-        return RepresentInBaseSystem(binaryValue,10);
+    public String translateBinaryToDecimal(String binary) throws NumberFormatException {
+        int binaryValue = getBinaryNumber(binary);
+        return representInBaseSystem(binaryValue,10);
     }
 
-    private int GetDecimalNumber(String decimal) throws NumberFormatException {
+    private int getDecimalNumber(String decimal) throws NumberFormatException {
         int length = decimal.length();
 
         int[] powers = IntStream.iterate(1, i -> i * 2)
@@ -46,7 +46,7 @@ public class StreamTranslator extends AbstractTranslator {
                 .sum();
     }
 
-    private int GetBinaryNumber(String binary) throws NumberFormatException {
+    private int getBinaryNumber(String binary) throws NumberFormatException {
         int length = binary.length();
 
         int[] powers = IntStream.iterate(1, i -> i * 2)
@@ -68,15 +68,15 @@ public class StreamTranslator extends AbstractTranslator {
                 .sum();
     }
 
-    private String RepresentInBaseSystem(int number, int base) throws NumberFormatException {
+    private String representInBaseSystem(int number, int base) throws NumberFormatException {
         return IntStream.iterate(number, i -> i > 0, i -> i / base)
                 .map(i -> i % base)
-                .mapToObj(i -> GetDigitInBase(number, base))
+                .mapToObj(i -> getDigitInBase(number, base))
                 .reduce(new StringBuilder(), (a, b) -> b.append(a))
                 .toString();
     }
 
-    private StringBuilder GetDigitInBase(int number, int base) throws NumberFormatException {
+    private StringBuilder getDigitInBase(int number, int base) throws NumberFormatException {
         String s = switch (number % base) {
             case 0 -> "0";
             case 1 -> "1";
