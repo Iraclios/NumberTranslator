@@ -7,6 +7,7 @@ public class TranslateAdapter extends AbstractTranslateAdapter {
         super(iTranslator);
     }
     public String translateNumber(String number, String option) throws NumberFormatException, IllegalArgumentException {
+        logger.debug("Selecting operation to perform");
         return switch (option) {
             case "DecimalToHex" -> iTranslator.translateDecimalToHex(number);
             case "DecimalToBinary" -> iTranslator.translateDecimalToBinary(number);

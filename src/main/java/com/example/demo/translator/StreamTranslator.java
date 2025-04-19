@@ -4,14 +4,17 @@ import java.util.stream.IntStream;
 
 public class StreamTranslator extends AbstractTranslator {
     public String translateDecimalToHex(String decimal) throws NumberFormatException {
+        logger.debug("Parsing decimal string to hex string");
         int decimalValue = getDecimalNumber(decimal);
         return representInBaseSystem(decimalValue,16);
     }
     public String translateDecimalToBinary(String decimal) throws NumberFormatException {
+        logger.debug("Parsing decimal string to binary string");
         int decimalValue = getDecimalNumber(decimal);
         return representInBaseSystem(decimalValue,2);
     }
     public String translateBinaryToDecimal(String binary) throws NumberFormatException {
+        logger.debug("Parsing binary string to decimal string");
         int binaryValue = getBinaryNumber(binary);
         return representInBaseSystem(binaryValue,10);
     }
@@ -19,7 +22,7 @@ public class StreamTranslator extends AbstractTranslator {
     private int getDecimalNumber(String decimal) throws NumberFormatException {
         int length = decimal.length();
 
-        int[] powers = IntStream.iterate(1, i -> i * 2)
+        int[] powers = IntStream.iterate(1, i -> i * 10)
                 .limit(length)
                 .toArray();
 
@@ -40,7 +43,6 @@ public class StreamTranslator extends AbstractTranslator {
                         default -> throw new NumberFormatException("Invalid input: " + ch);
                     };
                 }).toArray();
-
         return IntStream.range(0, length)
                 .map(i -> powers[length - i - 1] * digits[i])
                 .sum();
@@ -71,7 +73,7 @@ public class StreamTranslator extends AbstractTranslator {
     private String representInBaseSystem(int number, int base) throws NumberFormatException {
         return IntStream.iterate(number, i -> i > 0, i -> i / base)
                 .map(i -> i % base)
-                .mapToObj(i -> getDigitInBase(number, base))
+                .mapToObj(i -> getDigitInBase(i, base))
                 .reduce(new StringBuilder(), (a, b) -> b.append(a))
                 .toString();
     }

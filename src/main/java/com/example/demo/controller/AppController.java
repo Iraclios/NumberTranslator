@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.IAppService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AppController {
+    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+
     private final IAppService appService;
 
     public AppController(IAppService appService) {
@@ -22,6 +27,7 @@ public class AppController {
     @GetMapping(value = "/")
     public String getIndexPage()
     {
+        logger.trace("Returning index.html");
         return "index";
     }
 
@@ -39,6 +45,7 @@ public class AppController {
     public String translateNumber(@RequestParam(name = "fullname") String fullname,
                                      @RequestParam(name = "number") String number,
                                      @RequestParam(name = "chosenOperation") String chosenOperation) {
+        logger.trace("Returning result");
         return appService.translateNumberAndSaveAsPdfInMinio(fullname, number, chosenOperation);
     }
 }

@@ -4,7 +4,6 @@ import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.http.Method;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +20,7 @@ public class AppService extends AbstractAppService {
     public String translateNumberAndSaveAsPdfInMinio (String fullname,
                                                       String number,
                                                       String chosenOperation) {
+        logger.info("Translating input numbers");
         LinkedList<String> list = new LinkedList<>();
         list.add("Введенное число: " + number);
         try {
@@ -31,30 +31,35 @@ public class AppService extends AbstractAppService {
             list.add("Время работы в наносекундах: " + (timestampAfter1-timestampBefore1));
             long timestampBefore2 = System.nanoTime();
             list.add("Результат работы с использованием собственных алгоритмов: " +
-                    translators[0].translateNumber(number,chosenOperation));
+                    translators[1].translateNumber(number,chosenOperation));
             long timestampAfter2 = System.nanoTime();
             list.add("Время работы в наносекундах: " + (timestampAfter2-timestampBefore2));
             long timestampBefore3 = System.nanoTime();
             list.add("Результат работы с использованием Stream Api: " +
-                    translators[0].translateNumber(number,chosenOperation));
+                    translators[2].translateNumber(number,chosenOperation));
             long timestampAfter3 = System.nanoTime();
             list.add("Время работы в наносекундах: " + (timestampAfter3-timestampBefore3));
         }
         catch (NumberFormatException e) {
+            logger.info("Number representation doesn't match desired number system");
             return "Обнаружен недопустимый символ для выбранной системы счисления";
         }
         catch (IllegalArgumentException e) {
+            logger.warn("Unexpected operation was selected");
             return "Выбрано недопустимое преобразование";
         }
 
+        logger.info("Writing in pdf document");
         byte[] pdfBytes;
         try {
             pdfBytes = pdfConverter.createPdf(list);
         } catch (IOException e) {
+            logger.error("An error occurred during writing in pdf process");
             return "Ошибка записи";
         }
         ByteArrayInputStream inputStream = new ByteArrayInputStream(pdfBytes);
 
+        logger.info("Saving document and returning url");
         try {
             minioClient.putObject(
                     PutObjectArgs.builder()
@@ -76,6 +81,7 @@ public class AppService extends AbstractAppService {
             return "<a href=\"" + url + "\">Ссылка на результат работы</a>";
         }
         catch (Exception e) {
+            logger.error("An error occurred via connecting Minio");
             return e.getMessage();
         }
     }

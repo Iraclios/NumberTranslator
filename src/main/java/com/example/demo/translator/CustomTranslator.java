@@ -2,16 +2,19 @@ package com.example.demo.translator;
 
 public class CustomTranslator extends AbstractTranslator {
     public String translateDecimalToHex(String decimal) throws NumberFormatException {
+        logger.debug("Parsing decimal string to hex string");
         int decimalValue = getDecimalNumber(decimal);
         return representInNumberSystem(decimalValue, 16);
     }
 
     public String translateDecimalToBinary(String decimal) throws NumberFormatException {
+        logger.debug("Parsing decimal string to binary string");
         int decimalValue = getDecimalNumber(decimal);
         return representInNumberSystem(decimalValue, 2);
     }
 
     public String translateBinaryToDecimal(String binary) throws NumberFormatException {
+        logger.debug("Parsing binary string to decimal string");
         int binaryValue = getBinaryNumber(binary);
         return representInNumberSystem(binaryValue, 10);
     }
