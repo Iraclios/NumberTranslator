@@ -22,6 +22,7 @@ public class AppService extends AbstractAppService {
                                                       String chosenOperation) {
         logger.info("Translating input numbers");
         LinkedList<String> list = new LinkedList<>();
+        list.add("ФИО: " + fullname);
         list.add("Введенное число: " + number);
         try {
             long timestampBefore1 = System.nanoTime();
